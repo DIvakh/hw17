@@ -21,7 +21,7 @@ Student.prototype.getAge = function () {
 
 Student.prototype.present = function () {
     const notInArray = -1;
-    let index = this.attendance.findIndex(value => value === undefined);
+    const index = this.attendance.findIndex(value => typeof value === 'undefined');
     if (index === notInArray) {
         throw new Error('maximum size exceeded');
     }
@@ -30,7 +30,7 @@ Student.prototype.present = function () {
 
 Student.prototype.absent = function () {
     const notInArray = -1;
-    let index = this.attendance.findIndex(value => value === undefined);
+    const index = this.attendance.findIndex(value => typeof value === 'undefined');
     if (index === notInArray) {
         throw new Error('Maximum size exceeded!');
     }
@@ -43,7 +43,7 @@ Student.prototype.mark = function (markValue) {
     const notInArray = -1;
     const lowwerMark = 0;
     const higherMark = 10;
-    let index = this.marks.findIndex(value => value === undefined);
+    const index = this.marks.findIndex(value => typeof value === 'undefined');
     if (index === notInArray) {
         throw new Error('Maximum size exceeded!');
     }
@@ -56,16 +56,17 @@ Student.prototype.mark = function (markValue) {
 // Успеваемость:
 
 Student.prototype.summary = function () {
+    const deciminalPlaces = 1;
     const markThreshhold = 0.9;
     const averageThreshold = 9;
     try {
-        let marksSum = this.marks.reduce((acc, val) => acc + val);
-        let attendanceSum = this.attendance.map(val => Number(val)).reduce((acc, val) => acc + val);
+        const marksSum = this.marks.reduce((acc, val) => acc + val);
+        const attendanceSum = this.attendance.map(val => Number(val)).reduce((acc, val) => acc + val);
 
-        const arrLength = arr => arr.filter(el => el != undefined).length;
+        const arrLength = arr => arr.filter(el => typeof el !== 'undefined').length;
 
-        let averageMark = marksSum / arrLength(this.marks);
-        let averageAttendance = (attendanceSum / arrLength(this.attendance)).toFixed(1);
+        const averageMark = marksSum / arrLength(this.marks);
+        const averageAttendance = (attendanceSum / arrLength(this.attendance)).toFixed(deciminalPlaces);
 
         if (averageMark > averageThreshold && averageAttendance > markThreshhold) {
             return 'Ути какой молодчинка!';
@@ -81,11 +82,11 @@ Student.prototype.summary = function () {
 };
 
 //============================
-
-const ivan = new Student('Ivan', 'Petrov', 1993);
-
+const ivanBirthYear = 1993;
+const ivan = new Student('Ivan', 'Petrov', ivanBirthYear);
+const markForLecture = 10;
 ivan.getAge();
 ivan.present();
 ivan.absent();
-ivan.mark(10);
+ivan.mark(markForLecture);
 ivan.summary();
